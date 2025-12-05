@@ -366,8 +366,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
 	// Initialize the agent on page load.
-	const fpPromise = import('https://fpjscdn.net/v3/tANDnMoEVRSEhxd2XdqQ')
-			.then(FingerprintJS => FingerprintJS.load());
+	const fpPromise = import('https://fpjscdn.net/v3/4B11oI7ltKpEmYsOUbBr')
+			.then(FingerprintJS => FingerprintJS.load({
+				region: "ap"
+			}))
 
 	fpPromise
 			.then(fp => fp.get())
